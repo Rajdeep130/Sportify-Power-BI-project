@@ -1,12 +1,12 @@
-
+--
 No of Albums = DISTINCTCOUNT(spotify_history[album_name])
-
-
+--
+--
 LatestYearTotalAlbums = 
 VAR MAXYEAR = MAX('Date Table'[Year])
 RETURN
 CALCULATE(DISTINCTCOUNT(spotify_history[album_name]),'Date Table'[Year]= MAXYEAR)
-
+--
 
 
 PY and YoY Albums KPI =
