@@ -8,7 +8,6 @@ RETURN
 CALCULATE(DISTINCTCOUNT(spotify_history[album_name]),'Date Table'[Year]= MAXYEAR)
 --
 
-
 PY and YoY Albums KPI =
 VAR _latest = [LatestYearAlbums]
 VAR _previous = [PreviousYearAlbums]
@@ -20,5 +19,21 @@ IF(NOT(ISBLANK(_previous)),
     " (" & FORMAT(_YoY, "0.00%") & ")",
     "No Data"
 )
-
 I have not used this i used KPI CARD  
+
+Weekday&Weekend = IF('Date Table'[Day]="Sun" || 'Date Table'[Day] = "Sat","Weekend","Weekday")
+
+Weekday&Weeknd = IF(WEEKDAY('Date Table'[Date],2)<=5, "Weekday","Weekend")
+
+
+/*
+Why Use spotify_track_uri Instead of track_name?
+Track names are not unique: The same song might have multiple versions (e.g., remastered, live, deluxe edition) with the same name but different URIs.
+URIs uniquely identify tracks: Each song version has a unique Spotify Track URI, making it the best choice for counting distinct tracks.
+Example Problem With Counting track_name
+If we count unique track names, we might incorrectly assume that all plays of "Revolution 1 - Remastered 2009" belong to the same track. But there could be multiple remastered versions or different albums with the same name.
+
+Best Practice: Count spotify_track_uri
+To count unique songs accurately, you should use spotify_track_uri:
+*/
+
